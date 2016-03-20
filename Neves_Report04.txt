@@ -1,0 +1,83 @@
+Jessica Neves
+CSC 201
+3/19/16
+Program 4
+
+Variables:
+Project 1 - Check Validity
+- match_simple: local to function simpleExpressionIsValid, used to find instance of matched string
+
+Project 2 - Evaluate Simple Expression
+-first_number: local to function evaluateSimpleExpression. Integer type, sliced from first position [0] of string, to string.find() of one of four operators.
+-second_number: local to function evaluateSimpleExpression. Integer type, sliced from string.find()+1, to end of string.
+-total: local to function evlauateSimpleExpression. Integer type equal to first_number (+-/*) second_number
+
+Project 3 - Activate User Input
+Includes all variables present in Project 1 and Project 2
+-expr: global, string type. Initially assigned to None. Inside while loop, assigned to input value.
+-isValid: global, used to store returned value of function simpleExpressionIsValid.
+-evaluate: global, used to store returned value of function evaluateSimpleExpression.
+
+Project 4 - Memory Capabilities
+Includes all variables present in Project 1 and Project 2
+-expr: global, string type. Initially assigned to None. Inside while loop, assigned to input value.
+-match_last: local to function lastExpression, used to find instance of matched string
+-memory_bank: global, list type. Initially empty, used to store entries of previous calculations
+-expr_last: global, used to store returned value of lastExpression
+-number_last: global, integer type. Assigned to expr_last.group(1), used to index memory_bank to return desired number of past expressions
+-isValid: global, used to store returned value of simpleExpressionIsValid, value equality is checked in if statement for program to continue
+-evaluate: global, integer type, used to store returned value of evaluateSimpleExpression, value equality is checked in if statement for program to continue
+-total: global, string type, converts evaluate to string
+-entry: global, string type. concatenates expr "=" and total
+
+Project 5 - Complex Expression version 1
+Includes all variables present in Project 1 and Project 2
+-match_complex: local to complexExpressionValid. stores instance of matched string (with 3 terms)
+-memory_bank: global, list type. Initially empty, used to store entries of previous calculations
+-expr: global, string type. Initially assigned to None. Inside while loop, assigned to input value
+-match_last: local to function lastExpression, used to find instance of matched string
+-expr_last: global, used to store returned value of lastExpression
+-number_last: global, integer type. Assigned to expr_last, used to index memory_bank to return desired number of past expressions
+-isComplexValid: global, used to store returned value of complexExpressionValid. Used in if statement to check equality to continue program
+-list_SimpleExpressions: global, list type. Used to store list that is returned as a result of passing string through re.findall
+-term_bank: global, list type. Used to store values of evaluated simple expressions
+-isValid: global, assigned to False. Reassigned to True if there are no errors with evaluateSimpleExpression.
+-evaluate: global, stores value returned by function evaluateSimpleExpression. Equality is checked to either continue or break for loop
+-product: global, integer type. Initially uses identity property (multiply by 1) to start loop through the final list of terms, then multiply and reassign each term to it.
+-entry: global, string type. Used to concatenate all the parts of the equation 
+
+Project 6 - Complex Expression version 2
+Includes all variables present in Project 1 and Project 2
+-complexMatch: local to function complexExpressionValid, used to find instance of matched string
+-memory_bank: global, list type. Initially empty, used to store entries of previous calculations
+-expr: global, string type. Initially assigned to None. Inside while loop, assigned to input value
+-match_last: local to function lastExpression, used to find instance of matched string
+-expr_last: global, used to store returned value of lastExpression
+-number_last: global, integer type. Assigned to expr_last, used to index memory_bank to return desired number of past expressions
+-isComplexValid: global, used to store returned value of complexExpressionValid. Used in if statement to check equality to continue program
+-list_SimpleExpressions: global, list type. Used to store list that is returned as a result of passing string through re.findall
+-term_bank: global, list type. Used to store values of evaluated simple expressions
+-isValid: global, assigned to False. Reassigned to True if there are no errors with evaluateSimpleExpression.
+-evaluate: global, stores value returned by function evaluateSimpleExpression. Equality is checked to either continue or break for loop
+-product: global, integer type. Initially uses identity property (multiply by 1) to start loop through the final list of terms, then multiply and reassign each term to it.
+-entry: global, string type. Used to concatenate all the parts of the equation
+
+In this week's lab, we revisited our previous Simple Calculator program. In that project we devised a program that could take expressions of the form 1+1 or (1+1), and check to make sure they were valid and then give the correct calculated answer if they were. In that program, my approach was invalidating all the unwanted characters and symbols, and incorrect arrangements of parentheses. Without an understanding of functions, the project was also very difficult and was long and repetetive. I developed an understanding of priority while invalidating or nesting if statements, a very useful tool.
+
+This week, our goal was to take our Simple Calculator and apply new concepts to it to make it an Improved Calculator. The first step was to check the validity of my expressions. I created a function called simpleExpressionIsValid which recieved a string. I experimented with Regular Expressions and created one to fit my needs: ^(\d+)[*+-/](\d+)$. The '^' tells the expression to match at the beginning of the string. The '$' tells it to match at the end of the string. Each group (\d+) tells it to match 1 or more numeric character in its respective place in the sequence, and [*-/+] matches each of the operators. It is important that these operators be placed inside brackets to remove their special properties. Using re.match, if an exact match is found I tell the function to return True. Otherwise it returns "Invalid expression".
+
+Next we had to evaluate our simple expression. This part was straight forward. I copied my code from the previous project, and put it into one neat function that I could call as needed. When the function is called, it passes the string through. Each if block checks to see which operator is present, then uses slicing to essentially extract the desired numbers and then perform the appropriate calculation to them. In this new project I realized a flaw with my division block. I never went through and checked for divide by 0 errors. In this new improved calculator I took this into consideration and handled it.
+
+With my functions in place, I put in a while loop for user input. If the user types 'end' the while loop exits and the program stops. At the top of the while loop I tell the program to go on if expr != 'end', this is to avoid unwanted 'Invalid expression' print statements. In the wrong location, 'Invalid expression' will print before the program closes. Next, I set a variable isValid equal to the returned value of simpleExpressionIsValid. If that value returns True, the program continues. Otherwise, it skips to an else statement at the end and the loop restarts. I then set the variable 'evaluate' equal to evaluateSimpleExpression. If 'evaluate' returns my divide by zero error, it prints an 'Invalid expression'. Otherwise, the program prints the equation as a concatenated string.
+
+In Part 4, we had to implement the Memory Bank. I had designed my memory bank from the previous project using .insert to insert new entries into a list at the [0] position. In this new project we had to implement the 'last' expression feature. To do this I wrote a function called 'lastExpression'. In the function it matches a string to the regular expression '^last\s(\d+)$'. This regular expression also matches at the beginning and end of the string, and matches the characters 'l-a-s-t' and a number value represented by (\d+). In between, \s represents a whitespace character. If a match is found the value of group(1) is returned. In this regular expression, the set of parentheses around \d+ tell where group 1 is located. Ultimately, in the program this number gets saved as expr_last. I convert it to an integer in a variable called 'number_last', and then index my 'memory_bank' list from [0:number_last]. When the program makes it all the way through evaluating an expression, the concatenated equation is inserted to the first position of the memory bank. Ending the process here creates the infinite memory bank. We were tasked with only storing 5 expressions. To mimick this result, I reset my memory bank at the end to only display memory_bank[0:5].
+
+In Part 5, we introduced the complex expression. In this part we had to evaluate expressions with three terms defined by 3 sets of parentheses separated by '*'. Similar to how I checked for the simple expression, I started by hard coding the regular expression for the pattern I was looking for:
+^[(]\d+[*+-/]\d+[)][*][(]\d+[*+-/]\d+[)][*][(]\d+[*+-/]\d+[)]$
+In the body of my while loop I first checked for any 'last' inputs. Then moved on to pass 'expr' through my function for complexExpressionValid. I saved the result as 'isComplexValid'. If the result returned True, the program continues. Here I used a regular expression function called findall. Findall, takes any instance of a matched string and stores it in a list. I called the list 'list_SimpleExpressions' and I had it look for [(](\d+[*+-/]\d+)[)]. I created an empty list called term_bank, and a variable called 'isValid' to check equality of in order to continue the program. isValid is initially set to 'False'. In the next section, I started a for loop that iterated through each 'term' in 'list_SimpleExpressions'. Each iteration starts by sending the 'term' in question through my function to evaluate the expressions. Here, if any divide by zero error is encountered, 'Invalid expression' prints and a break statement stops the for loop. isValid is set to 'False'. At that point, the while loop starts over because the next if condition cannot occur. If no errors are found, each new evaluated value is appended to my term_bank, and isValid is reassigned to True. With isValid reassigned, the last if block can go. I start by creating a variable called 'product' and set it equal to 1. I have a for loop that iterates through each 'term_total' in my 'term_bank'. At each iteration, the program performs: product *= term_total. In the first iteration, term_total is multiplied by 1 (using the identity property) and reassigned to 'product'. Any subsequent iteration multiplies the 'term_total' by product and reassigns 'product'. This process works similarly to incrementation (+=). After the for loop ends, 'entry' is created by concatenating all the pieces of the equation, and then 'entry' is printed and inserted into the memory_bank.
+
+Project 6 follows the same process as Project 5, except that checking for a valid complex expression is slightly different. I continued to use re.match to find any instance of an incorrectly entered string. It starts by searching for the regular expression: ^[(]\d+[*+-/]\d+[)] ( [*][(]\d+[*+-/]\d+[)] )*$
+It must match at the beginning and at the end. It is grouped such that at the beginning of the expression it matches exactly ( <number><operator><number> )
+Following that, the expression must match: *( <number><operator><number> ) 0 or more times, as indicated by the '*'. This makes it possible to cover a single term expression or a multi-term expression. Because it must match the pattern exactly, any deviation from the pattern will return an 'Invalid expression'.
+
+This project posed quite a few challenges. By the end I felt much more comfortable using regular expressions and differentiating between match() and search(). The Python documentation includes a section with common pitfalls in using match() and search(), using one when you should be using the other. This was a mistake I made in Project 6. I started using search() to find a regular expression in the given string because I did not fully understand how match() functions. match() is much more appropriate for this assignment because it will not allow the user to deviate from the model. In trying to use search() it was very easy to find a case that I had not figured out how to handle (parentheses arranged improperly, missing operators, missing numbers, letters, symbols etc.). As I continued trying to use it and make it work, I found myself invalidating, rather than validating. This project has helped me understand the difference between the two. When my list of invalid scenarios to check for growing to be a mile long, I stepped back and attempted to rework the function with match(). I am much more pleased with the results. In looking at this program again, I was surprised I had not caught the divide by 0 error at first. It took me a moment to think back to one of our earlier lab assignments in which we were tasked to code a simple division problem. I was pleased with the way I got it to handle the error. I also discovered the challenge of working with 'True' and 'False' and their respective numeric values 1 and 0. This posed a problem if I entered an expression that calculated a value of 0. On a few occasions I found spots in my code that were not working properly that would intepret 0 as it's 'False' value. That was a very valuable lesson.
